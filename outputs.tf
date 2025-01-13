@@ -11,3 +11,11 @@ output "private_subnet_ids" {
 output "s3_bucket_name" {
   value = module.s3.s3_bucket_name
 }
+
+output "instance_id" {
+  value = module.ec2.tableau_ec2
+}
+
+output "security_group_id" {
+  value = module.ec2.security_group_id
+}
