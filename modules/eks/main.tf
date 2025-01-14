@@ -19,12 +19,41 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" {
   role       = aws_iam_role.eks_cluster_role.name
 }
 
+resource "aws_security_group" "eks_cluster_sg" {
+  name        = "${var.project_name}-eks-cluster-sg"
+  vpc_id      = var.vpc_id
+  description = "Security group for EKS Cluster"
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 1025
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 resource "aws_eks_cluster" "this" {
   name     = "${var.project_name}-eks"
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
     subnet_ids = var.subnet_ids
+    security_group_ids = [aws_security_group.eks_cluster_sg.id]
   }
 
   depends_on = [aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy]
@@ -60,6 +89,7 @@ resource "aws_iam_role_policy_attachment" "eks_node_AmazonEKS_CNI_Policy" {
   role       = aws_iam_role.eks_node_role.name
 }
 
+
 resource "aws_eks_node_group" "this" {
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "${var.project_name}-eks-ng"
@@ -69,7 +99,6 @@ resource "aws_eks_node_group" "this" {
   disk_size       = var.node_disk_size
   ami_type        = "AL2_x86_64"
   instance_types  = var.node_instance_types
-
   scaling_config {
     desired_size = var.node_scaling_config.desired_size
     min_size     = var.node_scaling_config.min_size
