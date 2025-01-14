@@ -1,4 +1,4 @@
 provider "aws" {
     region = var.aws_region
-    profile = "438465136766_AWSPowerUserAccess"
+    profile = "438465136766_438465136766-external-user"
 }

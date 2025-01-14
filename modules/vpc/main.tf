@@ -6,7 +6,7 @@ resource "aws_vpc" "this" {
   }
 }
 
-# 建立 單一子網 (私有子網，但會放 NAT Gateway & LB)
+# 建立 subnet
 resource "aws_subnet" "private" {
   count                   = length(var.subnet_cidr)  # 根據子網數量動態創建
   vpc_id                  = aws_vpc.this.id

@@ -15,7 +15,7 @@ data "aws_secretsmanager_secret_version" "rds_secret" {
 resource "aws_db_instance" "tableau" {
   identifier             = "${var.project_name}-rds"
   engine                 = "postgres"
-  port     = "5432"
+  port                   = "5432"
   engine_version         = "15.10"
   instance_class         = "db.t3.medium"
   allocated_storage      = 20
