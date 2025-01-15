@@ -11,14 +11,33 @@ output "private_subnet_ids" {
 output "s3_bucket_name" {
   value = module.s3.s3_bucket_name
 }
-
+# EC2
 output "instance_id" {
   value = module.ec2.tableau_ec2
+}
+
+output "tableau_ec2_public_ip" {
+  value = module.ec2.tableau_ec2_public_ip
+}
+
+output "tableau_ec2_private_ip" {
+  value = module.ec2.tableau_ec2_private_ip
+}
+
+output "tableau_ec2_arn" {
+  value = module.ec2.tableau_ec2_arn
 }
 
 output "security_group_id" {
   value = module.ec2.security_group_id
 }
+
+output "security_group_arn" {
+  value = module.ec2.security_group_arn
+}
+
+
+
 
 output "eks_cluster_name" {
   description = "The name of the EKS cluster from the module."
@@ -33,4 +52,15 @@ output "eks_cluster_endpoint" {
 output "eks_node_group_name" {
   description = "The name of the EKS node group from the module."
   value       = module.eks.eks_node_group_name
+}
+
+output "repository_url" {
+  value = module.ecr.repository_url
+}
+
+output "rds_endpoint" {
+  value = module.rds.rds_endpoint
+}
+output "secret_id" {
+  value = module.rds.secret_id
 }

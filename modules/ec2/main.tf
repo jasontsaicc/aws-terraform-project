@@ -37,7 +37,7 @@ resource "aws_security_group" "tableau_ec2_sg" {
 }
 
 resource "aws_instance" "this" {
-  ami                    = "ami-0dcbb56b78eb8378d" # Windows Server 2022 的 AMI ID
+  ami                    = var.ami_id
   instance_type          = var.instance_type
   subnet_id              = var.subnet_id
   associate_public_ip_address = true
@@ -45,8 +45,8 @@ resource "aws_instance" "this" {
   depends_on = [aws_security_group.tableau_ec2_sg]
 
   root_block_device {
-    volume_size = 30
-    volume_type = "gp3" # 可根據需求使用 gp3
+    volume_size = var.volume_size
+    volume_type = var.volume_type
   }
 
   tags = {

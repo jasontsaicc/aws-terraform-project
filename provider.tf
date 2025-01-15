@@ -1,4 +1,5 @@
 provider "aws" {
     region = var.aws_region
-    profile = "438465136766_438465136766-external-user"
+    profile = "438465136766-external-user-438465136766"
+    
 }
