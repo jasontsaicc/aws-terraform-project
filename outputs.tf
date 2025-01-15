@@ -1,3 +1,4 @@
+# vpc
 output "vpc_id" {
   description = "VPC ID"
   value       = module.vpc.vpc_id
@@ -48,6 +49,20 @@ output "ECR_repository_name" {
 output "ECR_repository_arn" {
   value = module.ecr.repository_arn
 }
+
+# RDS
+output "rds_endpoint" {
+  value = module.rds.rds_endpoint
+}
+
+output "rds_name" {
+  value = module.rds.rds_name
+}
+
+output "rds_arn" {
+  value = module.rds.rds_arn
+}
+
 
 # EKS
 output "eks_cluster_name" {
