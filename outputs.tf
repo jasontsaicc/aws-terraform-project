@@ -36,9 +36,20 @@ output "security_group_arn" {
   value = module.ec2.security_group_arn
 }
 
+# ECR
+output "ECR_repository_url" {
+  value = module.ecr.repository_url
+}
 
+output "ECR_repository_name" {
+  value = module.ecr.repository_name
+}
 
+output "ECR_repository_arn" {
+  value = module.ecr.repository_arn
+}
 
+# EKS
 output "eks_cluster_name" {
   description = "The name of the EKS cluster from the module."
   value       = module.eks.eks_cluster_name
