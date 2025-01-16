@@ -34,7 +34,7 @@ module "rds" {
 module "ec2" {
   source       = "./modules/ec2"
   project_name = var.project_name
-  subnet_id    = element(module.vpc.private_subnet_ids, 0) # 傳入第一個子網 ID
+  subnet_id    = element(module.vpc.public_subnet_ids, 0) # 傳入第一個子網 ID
   vpc_id       = module.vpc.vpc_id
   instance_type = var.instance_type
 }
@@ -43,4 +43,11 @@ module "eks" {
   project_name = var.project_name
   vpc_id       = module.vpc.vpc_id
   subnet_ids    = module.vpc.private_subnet_ids
+}
+
+module "ec2_bastion" {
+  source       = "./modules/ec2_bastion"
+  project_name = var.project_name
+  vpc_id       = module.vpc.vpc_id
+  subnet_id    = module.vpc.public_subnet_ids
 }

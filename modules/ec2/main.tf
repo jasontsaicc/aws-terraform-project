@@ -42,6 +42,7 @@ resource "aws_instance" "this" {
   subnet_id              = var.subnet_id
   associate_public_ip_address = true
   security_groups        = [aws_security_group.tableau_ec2_sg.id]
+  key_name      = var.ssh_key_name      
   # depends_on = [aws_security_group.tableau_ec2_sg]
 
   root_block_device {

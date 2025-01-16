@@ -13,5 +13,5 @@ variable "rds_credentials" {
 
 variable "secret_version" {
   type    = number
-  default = "6" # 每次需要手動遞增
+  default = "7" # 每次需要手動遞增
 }

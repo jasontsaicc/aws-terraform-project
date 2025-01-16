@@ -112,3 +112,21 @@ output "eks_node_group_name" {
   description = "The name of the EKS node group from the module."
   value       = module.eks.eks_node_group_name
 }
+
+# EC2 Bastion Outputs
+output "bastion_instance_id" {
+  value = module.ec2_bastion.bastion_instance_id
+}
+
+output "bastion_instance_public_ip" {
+  value = module.ec2_bastion.bastion_instance_public_ip
+}
+
+output "bastion_instance_private_ip" {
+  value = module.ec2_bastion.bastion_instance_private_ip
+}
+
+output "bastion_instance_arn" {
+  value = module.ec2_bastion.bastion_instance_arn
+}
+

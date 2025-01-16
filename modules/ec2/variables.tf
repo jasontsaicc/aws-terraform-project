@@ -29,3 +29,7 @@ variable "ami_id" {
   type = string
   default = "ami-0dcbb56b78eb8378d" # Windows Server 2022 的 AMI ID
 }
+
+variable "ssh_key_name" {
+  default = "tableau_ec2_bastion"
+}
