@@ -33,18 +33,19 @@ resource "aws_security_group" "redshift_sg" {
 
 resource "aws_redshift_cluster" "this" {
   cluster_identifier = "${var.project_name}-redshift"
-  database_name      = "dev"
+  database_name      = var.database_name
   master_username    = "admin"
   master_password    = "Admin1234"
-  node_type          = "dc2.large"
-  cluster_type       = "single-node"
-  port =               5439
+  node_type          = var.node_type
+  cluster_type       = var.cluster_type
+  port               = var.port
+  encrypted          = false
 
   cluster_subnet_group_name             = aws_redshift_subnet_group.this.name
   vpc_security_group_ids                = [aws_security_group.redshift_sg.id]
   publicly_accessible                   = false
-  automated_snapshot_retention_period   = 1
-  number_of_nodes                       = 1
+  automated_snapshot_retention_period   = var.automated_snapshot_retention_period
+  number_of_nodes                       = var.number_of_nodes
 
   tags = {
     Name = "${var.project_name}-redshift"

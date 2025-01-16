@@ -10,7 +10,3 @@ output "redshift_arn" {
 output "redshift_cluster_id" {
   value = aws_redshift_cluster.this.id
 }
-
-output "debug_redshift_subnet_ids" {
-  value = var.subnet_id
-}

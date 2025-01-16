@@ -30,7 +30,7 @@ output "vpc_cidr_block" {
 }
 
 # EC2 Outputs
-output "instance_id" {
+output "tableau_ec2_instance_id" {
   value = module.ec2.tableau_ec2
 }
 
@@ -46,10 +46,10 @@ output "tableau_ec2_arn" {
   value = module.ec2.tableau_ec2_arn
 }
 
-output "security_group_arn" {
+output "tableau_ec2_security_group_arn" {
   value = module.ec2.security_group_arn
 }
-output "security_group_id" {
+output "tableau_ec2_security_group_id" {
   value = module.ec2.security_group_id
 }
 
