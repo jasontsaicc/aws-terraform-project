@@ -130,3 +130,15 @@ output "bastion_instance_arn" {
   value = module.ec2_bastion.bastion_instance_arn
 }
 
+#  Redshift Outputs
+output "redshift_endpoint" {
+  value = module.redshift.redshift_endpoint
+}
+
+output "redshift_arn" {
+  value = module.redshift.redshift_arn
+}
+
+output "redshift_cluster_id" {
+  value = module.redshift.redshift_cluster_id
+}
