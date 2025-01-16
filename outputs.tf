@@ -142,3 +142,13 @@ output "redshift_arn" {
 output "redshift_cluster_id" {
   value = module.redshift.redshift_cluster_id
 }
+
+# ALB Outputs
+output "alb_dns_name" {
+  value = module.alb.alb_dns_name
+}
+
+# NLB Outputs
+output "nlb_dns_name" {
+  value = module.nlb.nlb_dns_name
+}

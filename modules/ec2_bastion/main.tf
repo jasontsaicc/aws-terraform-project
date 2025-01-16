@@ -36,6 +36,8 @@ resource "aws_instance" "ec2_eks_bastion" {
   instance_type = var.instance_type                  
   subnet_id     = var.subnet_id [0]
   key_name      = var.ssh_key_name               # SSH Key，用於連接 EC2
+  user_data = var.ec2_user_data
+
 
   # 指定 Security Group
   vpc_security_group_ids = [
