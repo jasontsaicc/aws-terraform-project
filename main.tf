@@ -58,3 +58,11 @@ module "redshift" {
   vpc_id       = module.vpc.vpc_id
   subnet_id    = module.vpc.private_subnet_ids
 }
+
+
+module "alb" {
+  source       = "./modules/alb"
+  project_name = var.project_name
+  vpc_id       = module.vpc.vpc_id
+  subnet_id    = module.vpc.private_subnet_ids
+}
