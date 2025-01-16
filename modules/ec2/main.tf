@@ -1,5 +1,5 @@
 resource "aws_security_group" "tableau_ec2_sg" {
-  name_prefix = "${var.project_name}-sg-"
+  name        = "${var.project_name}-sg"
   description = "Allow RDP, HTTP, and HTTPS access"
   vpc_id      = var.vpc_id
 
@@ -42,7 +42,7 @@ resource "aws_instance" "this" {
   subnet_id              = var.subnet_id
   associate_public_ip_address = true
   security_groups        = [aws_security_group.tableau_ec2_sg.id]
-  depends_on = [aws_security_group.tableau_ec2_sg]
+  # depends_on = [aws_security_group.tableau_ec2_sg]
 
   root_block_device {
     volume_size = var.volume_size

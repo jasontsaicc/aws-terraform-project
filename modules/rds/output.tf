@@ -13,3 +13,7 @@ output "rds_name" {
 output "rds_arn" {
   value = aws_db_instance.tableau.arn
 }
+
+output "rds_port" {
+  value = aws_db_instance.tableau.port
+}

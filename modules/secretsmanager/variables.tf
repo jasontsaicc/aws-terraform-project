@@ -10,3 +10,8 @@ variable "rds_credentials" {
     password = "Admin1234"
   }
 }
+
+variable "secret_version" {
+  type    = number
+  default = "6" # 每次需要手動遞增
+}

@@ -12,6 +12,7 @@ variable "vpc_id" {
 
 variable "instance_type" {
   type    = string
+  default = "t3.medium"
 }
 
 variable "volume_size" {
