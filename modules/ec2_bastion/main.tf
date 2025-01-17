@@ -30,6 +30,13 @@ resource "aws_security_group" "ec2_public_sg" {
     Name = "${var.project_name}-ec2-public-eks-bastion-sg"
   }
 }
+resource "aws_eip" "bastion_ip" {
+  instance = aws_instance.ec2_eks_bastion.id
+  domain   = "vpc"
+  tags = {
+    name = "${var.project_name}-ec2-eks-bastion-ip"
+  }
+}
 
 resource "aws_instance" "ec2_eks_bastion" {
   ami           = var.ami_id
@@ -44,8 +51,10 @@ resource "aws_instance" "ec2_eks_bastion" {
     aws_security_group.ec2_public_sg.id
   ]
 
+  
+
   # 自動分配公共 IP
-  associate_public_ip_address = true
+  # associate_public_ip_address = false
 
   tags = {
     Name = "${var.project_name}-public-ec2_eks_bastion"

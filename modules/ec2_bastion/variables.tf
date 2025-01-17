@@ -42,11 +42,5 @@ variable "ec2_user_data" {
     # Verify kubectl installation
     kubectl version --client
 
-    # Update kubeconfig for EKS
-    aws eks update-kubeconfig --region ap-southeast-1 --name tableau-dev-eks
-
-    # Test kubectl commands
-    kubectl config view
-    kubectl get nodes
   EOT
 }

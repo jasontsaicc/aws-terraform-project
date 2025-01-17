@@ -35,12 +35,20 @@ resource "aws_security_group" "tableau_ec2_sg" {
     Name = "${var.project_name}-security-group"
   }
 }
+resource "aws_eip" "table_ip" {
+  instance = aws_instance.this.id
+  domain   = "vpc"
+  tags = {
+    name = "${var.project_name}-tableau-ec2-ip"
+  }
+}
+
 
 resource "aws_instance" "this" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
   subnet_id              = var.subnet_id
-  associate_public_ip_address = true
+  # associate_public_ip_address = false
   vpc_security_group_ids        = [aws_security_group.tableau_ec2_sg.id]
   key_name      = var.ssh_key_name      
   # depends_on = [aws_security_group.tableau_ec2_sg]

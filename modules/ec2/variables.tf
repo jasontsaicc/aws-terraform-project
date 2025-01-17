@@ -12,12 +12,12 @@ variable "vpc_id" {
 
 variable "instance_type" {
   type    = string
-  default = "t3.medium"
+  default = "c5.4xlarge"
 }
 
 variable "volume_size" {
   type    = number
-  default = 30
+  default = 300
 }
 
 variable "volume_type" {

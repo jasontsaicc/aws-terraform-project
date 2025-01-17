@@ -36,7 +36,6 @@ module "ec2" {
   project_name = var.project_name
   subnet_id    = element(module.vpc.public_subnet_ids, 0) # 傳入第一個子網 ID
   vpc_id       = module.vpc.vpc_id
-  instance_type = var.instance_type
 }
 module "eks" {
   source       = "./modules/eks"

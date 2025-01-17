@@ -20,10 +20,6 @@ variable "subnet_cidr" {
         "10.10.2.0/24"]  # subnet 2
 }
 
-variable "instance_type" {
-    type = string
-    default = "t3.medium"
-}
 
 variable "public_subnet_cidrs" {
   description = "CIDR blocks for public subnets"
