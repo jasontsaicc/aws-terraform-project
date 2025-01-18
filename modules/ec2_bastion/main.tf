@@ -54,7 +54,6 @@ resource "aws_instance" "ec2_eks_bastion" {
   
 
   # 自動分配公共 IP
-  # associate_public_ip_address = false
 
   tags = {
     Name = "${var.project_name}-public-ec2_eks_bastion"

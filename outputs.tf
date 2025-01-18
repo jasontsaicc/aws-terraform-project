@@ -152,3 +152,8 @@ output "alb_dns_name" {
 output "nlb_dns_name" {
   value = module.nlb.nlb_dns_name
 }
+
+output "nlv_ip" {
+  value = module.nlb.nlb_ip
+  
+}

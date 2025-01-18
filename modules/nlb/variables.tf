@@ -14,3 +14,10 @@ variable "enable_eip" {
   type    = bool
   default = true
 }
+
+variable "alb_arn" {
+  type = string
+}
+variable "alb_dns_name" {
+  type = string
+}
