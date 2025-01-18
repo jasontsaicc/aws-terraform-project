@@ -45,6 +45,8 @@ resource "aws_lb" "this" {
   name               = "${var.project_name}-nlb"
   load_balancer_type = "network"
   ip_address_type    = "ipv4"
+  security_groups    = [aws_security_group.nlb_sg.id]  
+
   subnets            = var.enable_eip ? null : var.subnet_id # 當啟用 EIP 時，使用 subnet_mapping 配置
 
   dynamic "subnet_mapping" {
@@ -84,12 +86,12 @@ resource "aws_lb_listener" "nlb_tcp_listener" {
   }
 }
 
-# # 將 ALB 的 IP 地址手動添加至 NLB Target Group
-# resource "aws_lb_target_group_attachment" "nlb_to_alb_tg_attachment" {
-#   target_group_arn = aws_lb_target_group.nlb_to_alb_tg.arn
-#   target_id        = var.alb_arn # ALB 的 ARN
-#   port             = 80
+# 將 ALB 的 IP 地址手動添加至 NLB Target Group
+resource "aws_lb_target_group_attachment" "nlb_to_alb_tg_attachment" {
+  target_group_arn = aws_lb_target_group.nlb_to_alb_tg.arn
+  target_id        = var.alb_arn # ALB 的 ARN
+  port             = 80
   
-# }
+}
 
 

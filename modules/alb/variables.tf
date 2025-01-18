@@ -9,3 +9,7 @@ variable "vpc_id" {
 variable "subnet_id" {
   type = list(string)
 }
+
+variable "ec2_arn" {
+  type = string  
+}
