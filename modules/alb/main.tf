@@ -1,12 +1,13 @@
 resource "aws_lb" "this" {
   name               = "${var.project_name}-alb"
   load_balancer_type = "application"
-  subnets            = var.subnet_id
+  subnets            = var.private_subnet_ids
   internal           = true   
   security_groups    = [aws_security_group.alb_sg.id]  
 
   tags = {
     Name = "${var.project_name}-alb"
+    Environment = "dev"
   }
 }
 
@@ -41,6 +42,7 @@ resource "aws_security_group" "alb_sg" {
 
   tags = {
     Name = "${var.project_name}-alb-sg"
+    Environment = "dev"
   }
 }
 
@@ -84,7 +86,7 @@ resource "aws_lb_listener" "eks_http_listener" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "ta_tg_attachment" {
+resource "aws_lb_target_group_attachment" "tableau_ec2_tg_attachment" {
   target_group_arn = aws_lb_target_group.tableau_ec2_tg.arn
   target_id        = var.ec2_arn # ALB 的 ARN
   port             = 80

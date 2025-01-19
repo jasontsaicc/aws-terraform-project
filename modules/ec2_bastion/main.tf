@@ -28,6 +28,7 @@ resource "aws_security_group" "ec2_public_sg" {
 
   tags = {
     Name = "${var.project_name}-ec2-public-eks-bastion-sg"
+    Environment = "dev"
   }
 }
 resource "aws_eip" "bastion_ip" {
@@ -35,13 +36,14 @@ resource "aws_eip" "bastion_ip" {
   domain   = "vpc"
   tags = {
     name = "${var.project_name}-ec2-eks-bastion-ip"
+    Environment = "dev"
   }
 }
 
 resource "aws_instance" "ec2_eks_bastion" {
   ami           = var.ami_id
   instance_type = var.instance_type                  
-  subnet_id     = var.subnet_id [0]
+  subnet_id     = var.public_subnet_ids [0]
   key_name      = var.ssh_key_name               # SSH Key，用於連接 EC2
   user_data = var.ec2_user_data
 
@@ -57,5 +59,6 @@ resource "aws_instance" "ec2_eks_bastion" {
 
   tags = {
     Name = "${var.project_name}-public-ec2_eks_bastion"
+    Environment = "dev"
   }
 }

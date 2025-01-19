@@ -12,6 +12,10 @@ data "aws_iam_policy_document" "eks_cluster_assume_role_policy" {
 resource "aws_iam_role" "eks_cluster_role" {
   name               = "${var.project_name}-eks-cluster-role"
   assume_role_policy = data.aws_iam_policy_document.eks_cluster_assume_role_policy.json
+  tags = {
+    Name = "${var.project_name}-eks-cluster-role"
+    Environment = "dev"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" {
@@ -53,8 +57,13 @@ resource "aws_eks_cluster" "this" {
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
-    subnet_ids = var.subnet_ids
+    subnet_ids = var.private_subnet_ids
     # security_group_ids = [aws_security_group.eks_cluster_sg.id]
+  }
+
+  tags = {
+    Name = "${var.project_name}-eks"
+    Environment = "dev"
   }
 
   depends_on = [aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy]
@@ -74,6 +83,11 @@ data "aws_iam_policy_document" "eks_node_assume_role_policy" {
 resource "aws_iam_role" "eks_node_role" {
   name               = "${var.project_name}-eks-node-role"
   assume_role_policy = data.aws_iam_policy_document.eks_node_assume_role_policy.json
+
+  tags = {
+    Name = "${var.project_name}-eks-node-role"
+    Environment = "dev"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "eks_node_AmazonEKSWorkerNodePolicy" {
@@ -96,7 +110,7 @@ resource "aws_eks_node_group" "this" {
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "${var.project_name}-eks-ng"
   node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids      = var.subnet_ids
+  subnet_ids      = var.private_subnet_ids
    version        = var.eks_version
   disk_size       = var.node_disk_size
   ami_type        = "AL2_x86_64"
@@ -108,6 +122,7 @@ resource "aws_eks_node_group" "this" {
   }
   tags = {
     "Name" = "eks-node-${var.project_name}"
+    Environment = "dev"
   }
 
   depends_on = [

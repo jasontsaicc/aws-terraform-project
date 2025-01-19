@@ -4,6 +4,8 @@ resource "aws_secretsmanager_secret" "rds_secret" {
 
   tags = {
     Name = "${var.project_name}-rds-secret"
+    Environment = "dev"
+
   }
 }
 

@@ -5,6 +5,7 @@ resource "aws_vpc" "this" {
   cidr_block = var.vpc_cidr
   tags = {
     Name = "${var.project_name}-vpc"
+    Environment = "dev"
   }
 }
 
@@ -12,6 +13,7 @@ resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
   tags = {
     Name = "${var.project_name}-igw"
+    Environment = "dev"
   }
 }
 
@@ -26,13 +28,17 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = false
   tags = {
     Name = "${var.project_name}-public-subnet-${count.index + 1}"
+    Environment = "dev"
   }
 }
 
 # Public Route Table & default route → IGW
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.this.id
-  tags = { Name = "${var.project_name}-public-rt" }
+  tags = {
+    Name = "${var.project_name}-public-rt"
+    Environment = "dev"
+  }
 }
 
 resource "aws_route" "public_route_igw" {
@@ -56,6 +62,7 @@ resource "aws_eip" "nat_eip" {
   domain   = "vpc"
   tags = {
     Name = "${var.project_name}-nat-eip-${count.index + 1}"
+    Environment = "dev"
   }
 }
 
@@ -65,6 +72,7 @@ resource "aws_nat_gateway" "this" {
   subnet_id     = aws_subnet.public[count.index].id   # 放在對應的 public subnet
   tags = {
     Name = "${var.project_name}-nat-gw-${count.index + 1}"
+    Environment = "dev"
   }
   depends_on = [aws_internet_gateway.this]
 }
@@ -80,13 +88,17 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
   tags = {
     Name = "${var.project_name}-private-subnet-${count.index + 1}"
+    Environment = "dev"
   }
 }
 
 resource "aws_route_table" "private_rt" {
   count = length(local.availability_zones)
   vpc_id = aws_vpc.this.id
-  tags = { Name = "${var.project_name}-private-rt-${count.index + 1}" }
+  tags = { 
+    Name = "${var.project_name}-private-rt-${count.index + 1}"
+    Environment = "dev" 
+    }
 }
 
 # Each Private Route → NAT Gateway in same AZ

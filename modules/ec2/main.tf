@@ -33,6 +33,7 @@ resource "aws_security_group" "tableau_ec2_sg" {
 
   tags = {
     Name = "${var.project_name}-security-group"
+    Environment = "dev"
   }
 }
 resource "aws_eip" "table_ip" {
@@ -40,6 +41,7 @@ resource "aws_eip" "table_ip" {
   domain   = "vpc"
   tags = {
     name = "${var.project_name}-tableau-ec2-ip"
+    Environment = "dev"
   }
 }
 
@@ -47,7 +49,7 @@ resource "aws_eip" "table_ip" {
 resource "aws_instance" "this" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
-  subnet_id              = var.subnet_id
+  subnet_id              = var.public_subnet_ids
   vpc_security_group_ids        = [aws_security_group.tableau_ec2_sg.id]
   key_name      = var.ssh_key_name      
   # depends_on = [aws_security_group.tableau_ec2_sg]
@@ -59,5 +61,6 @@ resource "aws_instance" "this" {
 
   tags = {
     Name = "${var.project_name}-ec2"
+    Environment = "dev"
   }
 }

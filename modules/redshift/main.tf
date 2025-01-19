@@ -1,9 +1,11 @@
 resource "aws_redshift_subnet_group" "this" {
   name       = "${var.project_name}-redshift-sng"
-  subnet_ids = var.subnet_id
+  subnet_ids = var.private_subnet_ids
 
   tags = {
     Name = "${var.project_name}-redshift-sng"
+    Environment = "dev"
+
   }
 }
 
@@ -40,6 +42,9 @@ resource "aws_redshift_cluster" "this" {
   cluster_type       = var.cluster_type
   port               = var.port
   encrypted          = false
+  # 禁用最終快照，測試時可以開啟
+  skip_final_snapshot = true
+
 
   cluster_subnet_group_name             = aws_redshift_subnet_group.this.name
   vpc_security_group_ids                = [aws_security_group.redshift_sg.id]
@@ -49,5 +54,6 @@ resource "aws_redshift_cluster" "this" {
 
   tags = {
     Name = "${var.project_name}-redshift"
+    Environment = "dev"
   }
 }

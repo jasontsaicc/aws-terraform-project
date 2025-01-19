@@ -18,7 +18,7 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
-variable "subnet_id" {
+variable "public_subnet_ids" {
   type = list(string)
 }
 
