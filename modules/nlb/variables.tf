@@ -21,3 +21,8 @@ variable "alb_arn" {
 variable "alb_dns_name" {
   type = string
 }
+
+variable "alb_target_group_arn" {
+  type        = string
+  description = "Target group ARN of the ALB"
+}

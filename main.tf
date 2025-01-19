@@ -80,4 +80,5 @@ module "nlb" {
   public_subnet_ids    = module.vpc.public_subnet_ids
   alb_arn      = module.alb.alb_arn
   alb_dns_name = module.alb.alb_dns_name
+  alb_target_group_arn = module.alb.alb_target_group_arn
   }

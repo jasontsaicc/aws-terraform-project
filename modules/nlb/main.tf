@@ -71,10 +71,15 @@ resource "aws_lb_target_group" "nlb_to_alb_tg" {
   protocol    = "TCP" # 使用 TCP，因為 NLB 是第四層負載均衡
   vpc_id      = var.vpc_id
   target_type = "alb" 
+
+  depends_on = [ 
+    aws_lb.this
+   ]
   tags = {
     Name = "${var.project_name}-nlb-to-alb-tg"
     Environment = "dev"
   }
+
 }
 
 # NLB Listener，將流量轉發至 ALB
@@ -94,6 +99,10 @@ resource "aws_lb_target_group_attachment" "nlb_to_alb_tg_attachment" {
   target_group_arn = aws_lb_target_group.nlb_to_alb_tg.arn
   target_id        = var.alb_arn # ALB 的 ARN
   port             = 80
+  depends_on = [ 
+    aws_lb_target_group.nlb_to_alb_tg,
+    aws_lb_listener.nlb_tcp_listener
+   ]
   
 }
 

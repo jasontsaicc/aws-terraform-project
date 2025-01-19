@@ -29,4 +29,6 @@ resource "aws_db_instance" "tableau" {
     Name = "${var.project_name}-rds"
     Environment = "dev"
   }
+    depends_on = [data.aws_secretsmanager_secret_version.rds_secret]
+
 }

@@ -90,5 +90,8 @@ resource "aws_lb_target_group_attachment" "tableau_ec2_tg_attachment" {
   target_group_arn = aws_lb_target_group.tableau_ec2_tg.arn
   target_id        = var.ec2_arn # ALB 的 ARN
   port             = 80
+  depends_on = [ 
+    aws_lb_listener.tableau_ec2_http_listener
+   ]
   
 }

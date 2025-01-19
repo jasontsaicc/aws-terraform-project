@@ -58,20 +58,20 @@ resource "aws_route_table_association" "public_rta" {
 # NAT Gateway (建議至少每個 AZ 都建立一個)
 # -------------------------
 resource "aws_eip" "nat_eip" {
-  count = length(local.availability_zones)
+  # count = length(local.availability_zones)
   domain   = "vpc"
   tags = {
-    Name = "${var.project_name}-nat-eip-${count.index + 1}"
+    Name = "${var.project_name}-nat-eip-ap-southeast-1a"
     Environment = "dev"
   }
 }
 
 resource "aws_nat_gateway" "this" {
-  count         = length(local.availability_zones)
-  allocation_id = aws_eip.nat_eip[count.index].id
-  subnet_id     = aws_subnet.public[count.index].id   # 放在對應的 public subnet
+  # count         = aws_eip.nat_eip.id
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public[0].id    # 只使用 ap-southeast-1a 的 Public Subnet
   tags = {
-    Name = "${var.project_name}-nat-gw-${count.index + 1}"
+    Name = "${var.project_name}-nat-gw-ap-southeast-1a"
     Environment = "dev"
   }
   depends_on = [aws_internet_gateway.this]
@@ -106,7 +106,7 @@ resource "aws_route" "private_route_nat" {
   count                   = length(local.availability_zones)
   route_table_id         = aws_route_table.private_rt[count.index].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.this[count.index].id
+  nat_gateway_id         = aws_nat_gateway.this.id
 }
 
 # Subnet association to Private RT
