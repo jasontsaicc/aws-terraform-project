@@ -15,3 +15,5 @@ The infrastructure consists of:
 - **EKS**: Kubernetes cluster for container orchestration.
 - **ALB/NLB**: Load balancers for routing traffic.
 - **Redshift**: Data warehousing for analytics.
+
+![AWS PaaS 架構圖](架構圖_AWS_PaaS_revised_EKS_prod-dev-env.jpg)
