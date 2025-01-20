@@ -30,6 +30,12 @@ module "rds" {
   private_subnet_ids    = module.vpc.private_subnet_ids
   secret_id    = module.secretsmanager.secret_id
   secret_arn   = module.secretsmanager.secret_arn
+  ingress_rules = [
+    { from_port = 5432, to_port = 5432, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] },
+  ]
+  egress_rules = [
+    { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ]
 }
 
 #測試環境建置在public_subnet, os是windows tableau server, 測試方便連入所以建置在public, 正式環境改放在private subnet
