@@ -1,9 +1,11 @@
 # 為 NLB 設定固定的 EIP
 resource "aws_eip" "nlb_eip" {
-  count = var.enable_eip ? length(var.public_subnet_ids) : 0 # 每個子網對應一個 EIP
+  # count = var.enable_eip ? length(var.public_subnet_ids) : 0 # 每個子網對應一個 EIP
   domain = "vpc"
   tags = {
-    Name = "${var.project_name}-nlb-eip-${count.index + 1}"
+    # Name = "${var.project_name}-nlb-eip-${count.index + 1}"
+    Name        = "${var.project_name}-nlb-eip"
+
     Environment = "dev"
   }
 }
@@ -48,14 +50,18 @@ resource "aws_lb" "this" {
   ip_address_type    = "ipv4"
   security_groups    = [aws_security_group.nlb_sg.id]  
 
-  subnets            = var.enable_eip ? null : var.public_subnet_ids # 當啟用 EIP 時，使用 subnet_mapping 配置
+  # subnets            = var.enable_eip ? null : var.public_subnet_ids # 當啟用 EIP 時，使用 subnet_mapping 配置
 
-  dynamic "subnet_mapping" {
-    for_each = var.enable_eip ? toset(var.public_subnet_ids) : [] # 動態生成 subnet_mapping 配置
-    content {
-      subnet_id     = subnet_mapping.value
-      allocation_id = aws_eip.nlb_eip[index(var.public_subnet_ids, subnet_mapping.value)].id
-    }
+  # dynamic "subnet_mapping" {
+  #   for_each = var.enable_eip ? toset(var.public_subnet_ids) : [] # 動態生成 subnet_mapping 配置
+  #   content {
+  #     subnet_id     = subnet_mapping.value
+  #     allocation_id = aws_eip.nlb_eip[index(var.public_subnet_ids, subnet_mapping.value)].id
+  #   }
+  # }
+  subnet_mapping {
+    subnet_id     = var.public_subnet_ids[0]
+    allocation_id = aws_eip.nlb_eip.id
   }
 
   tags = {
