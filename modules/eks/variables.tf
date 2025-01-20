@@ -41,3 +41,4 @@ variable "node_scaling_config" {
     max_size     = 3
   }
 }
+

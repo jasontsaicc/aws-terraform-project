@@ -33,3 +33,23 @@ variable "ami_id" {
 variable "ssh_key_name" {
   default = "tableau_ec2_bastion"
 }
+
+variable "ingress_rules" {
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+
+}
+
+variable "egress_rules" {
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+
+}

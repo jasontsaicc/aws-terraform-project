@@ -38,6 +38,15 @@ module "ec2" {
   project_name = var.project_name
   public_subnet_ids    = element(module.vpc.public_subnet_ids, 0) # 傳入第一個子網 ID
   vpc_id       = module.vpc.vpc_id
+  ingress_rules = [
+    { from_port = 3389, to_port = 3389, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] },
+    { from_port = 443, to_port = 443, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] },
+    { from_port = 80, to_port = 80, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
+  ]
+
+  egress_rules = [
+    { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ]
   }
 
 module "eks" {
@@ -53,6 +62,12 @@ module "ec2_bastion" {
   project_name = var.project_name
   vpc_id       = module.vpc.vpc_id
   public_subnet_ids    = module.vpc.public_subnet_ids
+  ingress_rules = [
+    { from_port = 22, to_port = 22, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
+  ]
+  egress_rules = [
+    { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ]
   }
 
 
@@ -61,6 +76,12 @@ module "redshift" {
   project_name = var.project_name
   vpc_id       = module.vpc.vpc_id
   private_subnet_ids    = module.vpc.private_subnet_ids
+  ingress_rules = [
+    { from_port = 5439, to_port = 5439, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
+  ]
+  egress_rules = [
+    { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ]
   }
 
 
@@ -70,6 +91,13 @@ module "alb" {
   vpc_id       = module.vpc.vpc_id
   private_subnet_ids    = module.vpc.private_subnet_ids
   ec2_arn      = module.ec2.tableau_ec2
+  ingress_rules = [
+    { from_port = 80, to_port = 80, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] },
+    { from_port = 443, to_port = 443, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"]}
+  ]
+  egress_rules = [
+    { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ]
   }
 
 #測試環境建置在public subnet, 設置固定IP, 正式環境改放在private subnet改用內部DX連線
@@ -81,4 +109,11 @@ module "nlb" {
   alb_arn      = module.alb.alb_arn
   alb_dns_name = module.alb.alb_dns_name
   alb_target_group_arn = module.alb.alb_target_group_arn
+  ingress_rules = [
+    { from_port = 80, to_port = 80, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] },
+    { from_port = 443, to_port = 443, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"]}
+  ]
+  egress_rules = [
+    { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ]
   }
