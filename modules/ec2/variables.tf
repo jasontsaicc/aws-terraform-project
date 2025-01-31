@@ -12,7 +12,7 @@ variable "vpc_id" {
 
 variable "instance_type" {
   type    = string
-  default = "c5.4xlarge"
+  default = "m5.4xlarge"
 }
 
 variable "volume_size" {

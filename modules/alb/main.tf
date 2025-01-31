@@ -4,6 +4,8 @@ resource "aws_lb" "this" {
   subnets            = var.private_subnet_ids
   internal           = true   
   security_groups    = [aws_security_group.alb_sg.id]  
+  preserve_host_header = true
+  xff_header_processing_mode = "preserve"
 
   tags = {
     Name = "${var.project_name}-alb"
